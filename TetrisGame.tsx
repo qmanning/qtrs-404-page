@@ -42,7 +42,7 @@ interface TetrisGameProps {
     showGhost?: boolean;
     /** Ghost fill alpha; the outline alpha is derived as min(1, ghostOpacity * 4). */
     ghostOpacity?: number;
-    /** Whether line clears show the "Nice Clear!" / "OMG! QTRIS!" celebration pill. */
+    /** Whether line clears show the "Nice Clear!" / "OMG! Q.T.R.S.!" celebration pill. */
     showCelebrations?: boolean;
 }
 
@@ -239,7 +239,7 @@ export default function TetrisGame({
                 1: "Nice Clear!",
                 2: "Double!",
                 3: "Triple!",
-                4: "OMG! QTRIS!",
+                4: "OMG! Q.T.R.S.!",
             };
 
             const message =

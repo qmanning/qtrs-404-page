@@ -17,8 +17,8 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "404",
         subtitle: "This page fell through the cracks!",
         description:
-            "Like a misdropped QTRIS piece, this page doesn't fit here. Maybe it rotated away or got cleared in a line combo.",
-        instruction: "Play some QTRIS instead!",
+            "Like a misdropped Q.T.R.S. piece, this page doesn't fit here. Maybe it rotated away or got cleared in a line combo.",
+        instruction: "Play some Q.T.R.S. instead!",
     },
 
     // 500 - Internal Server Error
@@ -27,7 +27,7 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         subtitle: "Our server got garbaged!",
         description:
             "Four lines of errors hit our system at once. We're clearing our stack piece by piece.",
-        instruction: "Play QTRIS while we fix our blocks!",
+        instruction: "Play Q.T.R.S. while we fix our blocks!",
     },
 
     // 403 - Forbidden
@@ -35,8 +35,8 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "403",
         subtitle: "Access Blocked!",
         description:
-            "This page is like a perfect QTRIS wall - no gaps to get through. You need the right piece (permissions) to clear this line.",
-        instruction: "Play QTRIS while you wait for access!",
+            "This page is like a perfect Q.T.R.S. wall - no gaps to get through. You need the right piece (permissions) to clear this line.",
+        instruction: "Play Q.T.R.S. while you wait for access!",
     },
 
     // 401 - Unauthorized
@@ -45,7 +45,7 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         subtitle: "Wrong piece, wrong place!",
         description:
             "Looks like you're trying to fit an I-piece where only a T-piece belongs. Authentication required to continue.",
-        instruction: "Login first, then play QTRIS!",
+        instruction: "Login first, then play Q.T.R.S.!",
     },
 
     // 429 - Too Many Requests
@@ -53,8 +53,8 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "429",
         subtitle: "Whoa, slow down there!",
         description:
-            "You're dropping requests faster than QTRIS pieces on level 20. Take a breather and let the server catch up.",
-        instruction: "Chill with some QTRIS!",
+            "You're dropping requests faster than Q.T.R.S. pieces on level 20. Take a breather and let the server catch up.",
+        instruction: "Chill with some Q.T.R.S.!",
     },
 
     // 502 - Bad Gateway
@@ -63,7 +63,7 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         subtitle: "Gateway jammed like a misplaced block!",
         description:
             "Our gateway is more stuck than an L-piece in the wrong rotation. We're working to clear the blockage.",
-        instruction: "Play QTRIS while we unjam things!",
+        instruction: "Play Q.T.R.S. while we unjam things!",
     },
 
     // 503 - Service Unavailable
@@ -71,8 +71,8 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "503",
         subtitle: "Service temporarily paused!",
         description:
-            "Our service hit the pause button like you do when the phone rings during a QTRIS marathon. We'll be back shortly.",
-        instruction: "Perfect time for QTRIS practice!",
+            "Our service hit the pause button like you do when the phone rings during a Q.T.R.S. marathon. We'll be back shortly.",
+        instruction: "Perfect time for Q.T.R.S. practice!",
     },
 
     // 504 - Gateway Timeout
@@ -81,7 +81,7 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         subtitle: "Connection dropped like a missed piece!",
         description:
             "Our gateway timed out faster than a soft drop that went too far. Sometimes the timing just isn't right.",
-        instruction: "Better luck with QTRIS timing!",
+        instruction: "Better luck with Q.T.R.S. timing!",
     },
 
     // Generic Error
@@ -90,7 +90,7 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         subtitle: "Something rotated the wrong way!",
         description:
             "An error occurred that's more confusing than trying to fit a Z-piece where an S-piece should go. But hey, that's what makes it challenging!",
-        instruction: "Let's play QTRIS while we sort this out!",
+        instruction: "Let's play Q.T.R.S. while we sort this out!",
     },
 
     // JavaScript Error
@@ -98,8 +98,8 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "Script Error",
         subtitle: "Code block doesn't fit!",
         description:
-            "Our JavaScript got tangled up like QTRIS pieces falling too fast. Time to slow down and debug piece by piece.",
-        instruction: "Debug with QTRIS!",
+            "Our JavaScript got tangled up like Q.T.R.S. pieces falling too fast. Time to slow down and debug piece by piece.",
+        instruction: "Debug with Q.T.R.S.!",
     },
 
     // Network Error
@@ -107,8 +107,8 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "Network Error",
         subtitle: "Connection lost in the stack!",
         description:
-            "Your internet connection disappeared faster than a completed line in QTRIS. Check your network and try again.",
-        instruction: "Offline QTRIS still works!",
+            "Your internet connection disappeared faster than a completed line in Q.T.R.S.. Check your network and try again.",
+        instruction: "Offline Q.T.R.S. still works!",
     },
 
     // Database Error
@@ -116,8 +116,8 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "Database Error",
         subtitle: "Storage overflow!",
         description:
-            "Our database is more full than a QTRIS well at game over. We're clearing some space to make room for new data.",
-        instruction: "Play QTRIS while we optimize!",
+            "Our database is more full than a Q.T.R.S. well at game over. We're clearing some space to make room for new data.",
+        instruction: "Play Q.T.R.S. while we optimize!",
     },
 };
 
