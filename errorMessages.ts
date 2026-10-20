@@ -107,7 +107,7 @@ export const tetrisErrorMessages: Record<string, ErrorMessage> = {
         title: "Network Error",
         subtitle: "Connection lost in the stack!",
         description:
-            "Your internet connection disappeared faster than a completed line in Q.T.R.S.. Check your network and try again.",
+            "Your internet connection disappeared faster than a completed Q.T.R.S. line. Check your network and try again.",
         instruction: "Offline Q.T.R.S. still works!",
     },
 
