@@ -1,0 +1,116 @@
+{
+  "cellW": 170,
+  "cellH": 220,
+  "cols": 4,
+  "rows": 6,
+  "centerX": 101,
+  "baselineY": 219,
+  "headTopY": 19,
+  "minTopY": 1,
+  "topRows": [
+    19,
+    17,
+    15,
+    17,
+    19,
+    18,
+    9,
+    9,
+    18,
+    21,
+    11,
+    27,
+    35,
+    12,
+    1,
+    4,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19,
+    19
+  ],
+  "origin": {
+    "x": 29,
+    "y": 21
+  },
+  "nativePixelSource": {
+    "x": 1,
+    "y": 1
+  },
+  "frames": [
+    "idle-0",
+    "idle-1",
+    "idle-2",
+    "idle-3",
+    "punch-0",
+    "punch-1",
+    "punch-2",
+    "punch-3",
+    "punch-4",
+    "punch-5",
+    "jump-0",
+    "jump-1",
+    "jump-2",
+    "jump-3",
+    "jump-4",
+    "jump-5",
+    "jump-6",
+    "mouth-small",
+    "mouth-open",
+    "mouth-oo",
+    "blink-closed",
+    "blink-small",
+    "blink-open",
+    "blink-oo"
+  ],
+  "animations": {
+    "idle": {
+      "first": 0,
+      "count": 4,
+      "fps": 6,
+      "loop": true
+    },
+    "punch": {
+      "first": 4,
+      "count": 6,
+      "fps": 10,
+      "loop": false
+    },
+    "jump": {
+      "first": 10,
+      "count": 7,
+      "fps": 10,
+      "loop": false
+    }
+  },
+  "talk": {
+    "closed": 0,
+    "small": 17,
+    "open": 18,
+    "oo": 19
+  },
+  "blink": {
+    "closed": 20,
+    "small": 21,
+    "open": 22,
+    "oo": 23
+  },
+  "boxes": {
+    "mouth": {
+      "x0": 90,
+      "y0": 134,
+      "x1": 108,
+      "y1": 143
+    },
+    "eye": {
+      "x0": 92,
+      "y0": 104,
+      "x1": 112,
+      "y1": 125
+    }
+  }
+}
