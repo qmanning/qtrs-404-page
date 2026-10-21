@@ -103,12 +103,12 @@ Voice and effects are fetched only after sound is turned on. Google Sans is fetc
 ## Credits and licences
 
 - **Code:** MIT (see `LICENSE`). Built on [Basic Tetris HTML and JavaScript Game](https://gist.github.com/straker/3c98304f8a6a9e20f2f8e1e1b86b0bc4) by Steven Lambert (MIT), ported to TypeScript and extended. If you build on this, please carry the credit forward.
-- **Sprites:** Q's pixel art was made with [PixelLab](https://www.pixellab.ai).
+- **Sprites:** Q's pixel art was made with [PixelLab](https://www.pixellab.ai), under Q's paid PixelLab plan, which licenses it for this use.
 - **Icons:** [Lucide](https://lucide.dev) (ISC), through `lucide-react`.
 - **Google Sans:** the QBOY's bezel type, SIL Open Font License 1.1 (`public/qtrs/fonts/Google-Sans-OFL.txt`).
 - **IBM CGA pixel font:** `Web437_IBM_CGA.woff`, from The Ultimate Oldschool PC Font Pack by VileR ([int10h.org](https://int10h.org/oldschool-pc-fonts/)), licensed CC BY-SA 4.0 (`public/qtrs/fonts/IBM-CGA-LICENSE-CC-BY-SA-4.0.txt`). That font file stays under its own licence; it does not change the licence of the code.
 - **Voice clips:** Q's own voice, recorded and processed by Q. Sound effects are synthesised, no samples.
-- **Artwork:** the QBOY plastic texture and the QBOY and Q.T.R.S. wordmarks are Q's own.
+- **Artwork:** the QBOY plastic texture and the QBOY and Q.T.R.S. logos were made by Q and are shared with this project.
 
 ## License
 
