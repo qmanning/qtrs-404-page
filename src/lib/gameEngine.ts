@@ -1,8 +1,5 @@
 /**
- * /Users/qmanning/Local Sites/qmanning-next/src/lib/tetris/gameEngine.ts
- * Last Change: Created core Tetris game engine with TypeScript
- * v1
- *
+ * The Q.T.R.S. game engine: board, tetrominoes, rotation with wall kicks, line clears, scoring and level speed. No React in here.
  * Credit: the playfield/tetromino/gravity logic began from Steven Lambert's
  * "Basic Tetris HTML and JavaScript Game" (MIT),
  * https://gist.github.com/straker/3c98304f8a6a9e20f2f8e1e1b86b0bc4
@@ -338,6 +335,24 @@ export class TetrisGame {
             )
         ) {
             this.currentPiece.col = newCol;
+            return true;
+        }
+        return false;
+    }
+
+    // Rotate 90 degrees counterclockwise: three clockwise turns applied in one step (no wall kicks, as with rotate())
+    public rotateCCW(): boolean {
+        if (!this.currentPiece || this.gameOver || this.isPaused) return false;
+
+        const rotatedMatrix = this.rotateMatrix(this.rotateMatrix(this.rotateMatrix(this.currentPiece.matrix)));
+        if (
+            this.isValidMove(
+                rotatedMatrix,
+                this.currentPiece.row,
+                this.currentPiece.col
+            )
+        ) {
+            this.currentPiece.matrix = rotatedMatrix;
             return true;
         }
         return false;

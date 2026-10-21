@@ -1,9 +1,4 @@
-/**
- * /Users/qmanning/Local Sites/qmanning-next/src/lib/tetris/errorMessages.ts
- * Last Change: Created Tetris-themed error messages for all error types
- * v1
- */
-
+// Q.T.R.S. error copy per status code (404, 500, ...).
 export interface ErrorMessage {
     title: string;
     subtitle: string;
