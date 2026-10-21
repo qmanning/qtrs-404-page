@@ -1,8 +1,10 @@
-# Qtris 404 Page
+# Q.T.R.S. 404 Page
+
+*Queue, Turn, Rotate, Slam.*
 
 A 404 page you don't mind landing on — a playable Tetris on a canvas, with a leaderboard.
 
-**Live demo:** https://qmanning.com/labs/qtris-404-page
+**Live demo:** https://qmanning.com/labs/qtrs-404-page
 
 ## What it does
 
@@ -66,4 +68,4 @@ MIT.
 
 ---
 
-Made by [Q Manning](https://qmanning.com) · [Source on GitHub](https://github.com/qmanning/qtris-404-page) · [See it live in the Labs](https://qmanning.com/labs/qtris-404-page)
+Made by [Q Manning](https://qmanning.com) · [Source on GitHub](https://github.com/qmanning/qtrs-404-page) · [See it live in the Labs](https://qmanning.com/labs/qtrs-404-page)
