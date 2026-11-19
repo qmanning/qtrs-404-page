@@ -2,69 +2,117 @@
 
 *Queue, Turn, Rotate, Slam.*
 
-A 404 page you don't mind landing on — a playable Tetris on a canvas, with a leaderboard.
+A 404 page you don't mind landing on. **QBOT**, a pixel-art Q, plays Tetris on a blue-and-white handheld. Click, tap, or press Enter and the game is yours, with a leaderboard. On a phone the whole screen becomes the **QBOY** handheld, with on-screen controls.
 
 **Live demo:** https://qmanning.com/labs/qtrs-404-page
 
+![Desktop: the heading and controls on the left, QBOT playing on the handheld, Q beside it](docs/screenshot-desktop.png)
+
+![QBOY: the phone handheld, with the D-pad and four face buttons](docs/screenshot-qboy.png)
+
 ## What it does
 
-Someone hits a dead link and, instead of a shrug, gets a **game**. The page shows the error ("This page fell through the cracks!"), score / lines / level, and a Tetris board that starts on its own. Keyboard on desktop (arrows, space to drop), **swipe** on phones, and on-screen buttons for both. When the game ends it offers a restart — and, if you wire the leaderboard, lets a good score be submitted with a name.
-
-## How it works
-
-- `gameEngine.ts` is the whole game: board, tetrominoes, rotation with wall kicks, line clears, scoring and level speed. It has no React in it.
-- `TetrisGame.tsx` owns a `<canvas>` and a `requestAnimationFrame` loop, draws the engine's state, and maps keyboard, swipe (`swipeDetection.ts`) and button input to engine moves.
-- `TetrisErrorPage.tsx` is the page: message, stats, the game, the retry/home buttons, and the optional leaderboard + score modal (Supabase-backed in this site — swap the two fetch calls for your own store, or set `enableLeaderboard={false}`).
-- `errorMessages.ts` holds the copy per status code.
-
-## Settings
-
-The gear in the top corner of the demo (14px, `Settings` icon) opens a menu of this lab's controls; every change updates the demo live. Save keeps your values in the browser, Reset restores the defaults, and a universal "Hide controls" switch hides every lab's gear at once (a small "show controls" link brings it back). The 404 page keeps its own defaults; the gear is on the Labs tile.
-
-| Control | Type | Default | Range or options |
-|---|---|---|---|
-| Block size | range | 16px | 12px to 24px |
-| Starting level | range | 1 | 1 to 10 |
-| Ghost piece | toggle | on | on/off |
-| Ghost opacity | range | 0.18 | 0.05 to 0.6 |
-| Score row | toggle | off | on/off |
-| Celebrations | toggle | on | on/off |
-
-Going live: pass `showControls={false}` to hide the gear in production, or keep it and let visitors dial it in.
+- **Desktop:** the heading and controls on the left, the handheld in the middle, Action Q beside it. QBOT plays an imperfect, believable game and reacts with bubbles and little animations. Click the screen, press Enter or Space, or hit the button to take over (3, 2, 1, GO!). Leave it alone for about 30 seconds and he takes it back. A ghost piece shows where the piece will land.
+- **Phones (820px wide or less):** the QBOY handheld fills the screen: D-pad, two turn directions, START, SOUND and Home. Swipe on the screen works too.
+- **Sound:** QBOT's voice and chiptune effects, **off by default**. Nothing audio is requested until the visitor turns it on.
+- **High scores:** a top-10 list in the game's own look. Without a backend it keeps scores in the visitor's browser.
+- **Error pages:** the same game serves a 404, a 500 with a "Try again" button, or a page of its own.
 
 ## Install
 
-1. Download the files (this repo) and drop them in: `TetrisErrorPage.tsx`, `TetrisGame.tsx`, `ScoreSubmissionModal.tsx`, `TetrisLeaderboard.tsx` into your components, `gameEngine.ts`, `swipeDetection.ts`, `errorMessages.ts` into a `lib/tetris` folder. Fix the `@/…` import paths to match.
-2. `npm i lucide-react framer-motion` (icons and the page's entrance animation).
-3. Use it as your Next.js `not-found.tsx`:
+It is a folder you drop into a Next.js app (built and tested with Next 15 and React 19, App Router). No UI kit, no Tailwind, no `@/` alias, no `next/font`.
+
+1. Copy `src/` into your project (for example to `src/qtrs`), and `public/qtrs/` into your `public/` folder.
+2. `npm i lucide-react` (the button icons).
+3. Use it as your `not-found.tsx`:
 
 ```tsx
-import TetrisErrorPage from "@/components/tetris/TetrisErrorPage";
-import { getTetrisErrorMessage } from "@/lib/tetris/errorMessages";
+// app/not-found.tsx
+import Qtrs404 from "@/qtrs/components/Qtrs404";
 
 export default function NotFound() {
-    const m = getTetrisErrorMessage("404");
-    return <TetrisErrorPage title={m.title} subtitle={m.subtitle} description={m.description} instruction={m.instruction} />;
+    return <Qtrs404 home="/" />;
 }
 ```
 
-## Use the game on its own
+And, for runtime errors, your `error.tsx`:
 
 ```tsx
-import TetrisGame from "@/components/tetris/TetrisGame";
+// app/error.tsx
+"use client";
+import Qtrs404 from "@/qtrs/components/Qtrs404";
+import { QTRS_500 } from "@/qtrs/lib/errorCopy";
 
-<TetrisGame width={320} height={640} enableLeaderboard={false} onGameOver={(score) => console.log(score)} />
+export default function Error({ reset }: { error: Error; reset: () => void }) {
+    return <Qtrs404 home="/" {...QTRS_500} onRetry={reset} />;
+}
 ```
 
-Props: `width`, `height`, `autoScale` (fit small screens), `enableLeaderboard`, `minScoreForSubmission`, and callbacks `onGameStart`, `onScoreUpdate`, `onGameOver`, `onAchievement`, `onScoreSubmitted`, `onGameRestart`.
+This repo is also a runnable Next.js app: `npm install && npm run dev`. `/` is the game as a page, `/nope` is the 404, `/boom` throws to show the 500.
 
-## Credits
+## Props
 
-Built on [Basic Tetris HTML and JavaScript Game](https://gist.github.com/straker/3c98304f8a6a9e20f2f8e1e1b86b0bc4) by Steven Lambert (MIT). It was ported to TypeScript and extended here with levels, line-clear animation, swipe controls and the leaderboard. If you build on this, please carry the credit forward the same way.
+| Prop | Type | Default | What it does |
+|---|---|---|---|
+| `home` | string | `"/"` | Where "Go home" and the QBOY's Home button go |
+| `code` | string | `"404"` | The error code. `"qtrs"` is the plain game page; anything else is an error page with the same game. Shown on the QBOY's bezel |
+| `title` | string | `"Error 404"` | The small tag above the heading |
+| `lines` | `[string, string]` | the 404 copy | The heading and the short paragraph under it |
+| `onRetry` | `() => void` | none | When set, a "Try again" button sits beside "Go home" (pass your error boundary's `reset`) |
+| `leaderboard` | string or `{ list, submit }` | none | A leaderboard endpoint (see below). Left out, scores stay in `localStorage` |
+| `assetBase` | string | `"/qtrs"` | The folder the sprites, fonts, voice and sound effects are served from |
+| `musicSrc` | string | none | An optional looping music track URL. There is none by default |
+
+### Leaderboard endpoint
+
+Pass one URL, or `{ list, submit }` if they are two:
+
+```
+GET  {list}?limit=10   ->  { "leaderboard": [{ "initials": "ABC", "score": 1200 }, ...] }   best first
+POST {submit}  { "initials": "ABC", "score": 1200, "level": 3, "lines": 21 }   ->  any 2xx
+```
+
+A score is offered a name prompt only if it makes the top 10. Validate and rate-limit the POST on your side: anything the browser sends can be faked.
+
+## Files and weight
+
+```
+src/components/Qtrs404.tsx          the game, the page and the QBOY (client component)
+src/components/Qtrs404.module.css
+src/components/ScoreSubmissionModal.tsx (+ .module.css)
+src/lib/gameEngine.ts               the whole game, no React
+src/lib/autoplay.ts                 QBOT, the imperfect player
+src/lib/swipeDetection.ts, scores.ts, errorMessages.ts, errorCopy.ts
+src/manifests/                      sprite, voice and sound-effect tables
+public/qtrs/                        about 690 KB: sprites and QBOY art 311 KB,
+                                    voice 274 KB, sound effects 29 KB, fonts 77 KB
+```
+
+Voice and effects are fetched only after sound is turned on. Google Sans is fetched only when the QBOY shows. To skip sound entirely, delete `public/qtrs/voice` and `public/qtrs/sfx`: the game plays silently.
+
+## How it works
+
+- `gameEngine.ts` is the game: board, tetrominoes, rotation with wall kicks, line clears, scoring, level speed. It has no React in it.
+- `autoplay.ts` is QBOT: it scores every placement, then plays like a person (noise, blunders, second thoughts).
+- `Qtrs404.tsx` draws a 144 x 160 pixel canvas at a whole-number scale, drives QBOT and the visitor's game, and renders the desktop page or the QBOY.
+
+## Scripts
+
+`npm run typecheck`, `npm run lint`, `npm test` (the autoplay and engine tests), `npm run build`.
+
+## Credits and licences
+
+- **Code:** MIT (see `LICENSE`). Built on [Basic Tetris HTML and JavaScript Game](https://gist.github.com/straker/3c98304f8a6a9e20f2f8e1e1b86b0bc4) by Steven Lambert (MIT), ported to TypeScript and extended. If you build on this, please carry the credit forward.
+- **Sprites:** Q's pixel art was made with [PixelLab](https://www.pixellab.ai), under Q's paid PixelLab plan, which licenses it for this use.
+- **Icons:** [Lucide](https://lucide.dev) (ISC), through `lucide-react`.
+- **Google Sans:** the QBOY's bezel type, SIL Open Font License 1.1 (`public/qtrs/fonts/Google-Sans-OFL.txt`).
+- **IBM CGA pixel font:** `Web437_IBM_CGA.woff`, from The Ultimate Oldschool PC Font Pack by VileR ([int10h.org](https://int10h.org/oldschool-pc-fonts/)), licensed CC BY-SA 4.0 (`public/qtrs/fonts/IBM-CGA-LICENSE-CC-BY-SA-4.0.txt`). That font file stays under its own licence; it does not change the licence of the code.
+- **Voice clips:** Q's own voice, recorded and processed by Q. Sound effects are synthesised, no samples.
+- **Artwork:** the QBOY plastic texture and the QBOY and Q.T.R.S. logos were made by Q and are shared with this project.
 
 ## License
 
-MIT.
+MIT, apart from the fonts and sprites credited above.
 
 ---
 

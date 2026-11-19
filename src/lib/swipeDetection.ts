@@ -1,7 +1,5 @@
 /**
- * /Users/qmanning/Local Sites/qmanning-next/src/lib/tetris/swipeDetection.ts
- * Last Change: Created swipe gesture detection for mobile Tetris controls
- * v1
+ * Swipe gesture detection for the phone controls.
  */
 
 export interface TouchPoint {

@@ -1,0 +1,158 @@
+{
+ "Again!": {
+  "file": "again.mp3",
+  "duration": 0.84
+ },
+ "Almost.": {
+  "file": "almost.mp3",
+  "duration": 0.84
+ },
+ "Breathe.": {
+  "file": "breathe.mp3",
+  "duration": 0.87
+ },
+ "Careful!": {
+  "file": "careful.mp3",
+  "duration": 0.812
+ },
+ "Clean.": {
+  "file": "clean.mp3",
+  "duration": 0.74
+ },
+ "Double!": {
+  "file": "double.mp3",
+  "duration": 0.57
+ },
+ "Eh, it'll work.": {
+  "file": "eh-it-ll-work.mp3",
+  "duration": 1.51
+ },
+ "Getting tall.": {
+  "file": "getting-tall.mp3",
+  "duration": 0.96
+ },
+ "Good game!": {
+  "file": "good-game.mp3",
+  "duration": 0.95
+ },
+ "Got it.": {
+  "file": "got-it.mp3",
+  "duration": 0.63
+ },
+ "Hmm, that's a hole.": {
+  "file": "hmm-that-s-a-hole.mp3",
+  "duration": 1.68
+ },
+ "Hmm.": {
+  "file": "hmm.mp3",
+  "duration": 0.61
+ },
+ "I meant to do that.": {
+  "file": "i-meant-to-do-that.mp3",
+  "duration": 1.06
+ },
+ "Left a bit.": {
+  "file": "left-a-bit.mp3",
+  "duration": 1.01
+ },
+ "My turn!": {
+  "file": "my-turn.mp3",
+  "duration": 0.85
+ },
+ "Nice.": {
+  "file": "nice.mp3",
+  "duration": 0.84
+ },
+ "Nice!": {
+  "file": "nice.mp3",
+  "duration": 0.84
+ },
+ "Not bad at all.": {
+  "file": "not-bad-at-all.mp3",
+  "duration": 1.1
+ },
+ "Not my best.": {
+  "file": "not-my-best.mp3",
+  "duration": 1.11
+ },
+ "Okay, I'll play.": {
+  "file": "okay-i-ll-play.mp3",
+  "duration": 1.24
+ },
+ "Okay, here we go.": {
+  "file": "okay-here-we-go.mp3",
+  "duration": 1.491
+ },
+ "Oof. Again?": {
+  "file": "oof-again.mp3",
+  "duration": 1.56
+ },
+ "Oof. Reset.": {
+  "file": "oof-reset.mp3",
+  "duration": 1.5
+ },
+ "Thinking...": {
+  "file": "thinking.mp3",
+  "duration": 0.72
+ },
+ "Oops.": {
+  "file": "oops.mp3",
+  "duration": 0.61
+ },
+ "Q.T.R.S.!": {
+  "file": "q-t-r-s.mp3",
+  "duration": 3.36
+ },
+ "So close.": {
+  "file": "so-close.mp3",
+  "duration": 1.22
+ },
+ "TETRIS! Show off.": {
+  "file": "tetris-show-off.mp3",
+  "duration": 1.91
+ },
+ "TETRIS!": {
+  "file": "tetris.mp3",
+  "duration": 0.85
+ },
+ "Triple! Wow.": {
+  "file": "triple-wow.mp3",
+  "duration": 1.78
+ },
+ "Triple!": {
+  "file": "triple.mp3",
+  "duration": 0.66
+ },
+ "Two at once.": {
+  "file": "two-at-once.mp3",
+  "duration": 1.63
+ },
+ "Where does this go?": {
+  "file": "where-does-this-go.mp3",
+  "duration": 1.06
+ },
+ "Whoa!": {
+  "file": "whoa.mp3",
+  "duration": 0.77
+ },
+ "Whoa, tall.": {
+  "file": "whoa-tall.mp3",
+  "duration": 1.43
+ },
+ "Well. Again!": {
+  "file": "well-again.mp3",
+  "duration": 1.68
+ },
+ "Uh oh.": {
+  "file": "uh-oh.mp3",
+  "duration": 0.72
+ },
+ "Yes!": {
+  "file": "yes.mp3",
+  "duration": 0.83
+ },
+ "Your turn!": {
+  "file": "your-turn.mp3",
+  "duration": 0.82
+ }
+}

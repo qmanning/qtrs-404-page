@@ -1,0 +1,1229 @@
+/* The 404: a QOS blue and navy game screen on the page. It is a 144 x 160 pixel canvas drawn at a whole-number scale (--s): a 10 x 20 well of square 8px cells beside the readouts. */
+.page {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    overflow: auto;
+    background: #fff;
+    color: #101212;
+    font-family: var(--qtrs-font, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* the game on the left, QBOT on the right under the heading, watching it */
+.inner {
+    box-sizing: border-box;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 12px 48px;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-areas:
+        "game head"
+        "game qbot";
+    grid-template-rows: auto 1fr;
+    column-gap: 40px;
+    align-items: start;
+}
+.game {
+    grid-area: game;
+    display: flex;
+    flex-direction: column;
+    /* the button and directions sit centred under the screen (Q): the column is as wide as the screen */
+    align-items: center;
+    width: fit-content;
+    max-width: 100%;
+    gap: 14px;
+}
+.qbot {
+    grid-area: qbot;
+}
+/* desktop: the words in a left column (heading, text, links, controls), the screen in the middle and QBOT beside it, the group centred on the page */
+@media (min-width: 821px) {
+    .inner {
+        /* room for the screen's shadow */
+        padding: 40px 32px 48px;
+        grid-template-columns: 340px auto auto;
+        grid-template-areas: "head game qbot";
+        grid-template-rows: auto;
+        justify-content: center;
+        align-content: start;
+    }
+    .inner .qbot {
+        align-self: start;
+        pointer-events: none;
+    }
+}
+
+.head {
+    grid-area: head;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding-top: 12px;
+    min-width: 0;
+}
+
+.tag {
+    font-family: "QtrsCGA", ui-monospace, monospace;
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    color: #163bef;
+}
+
+.title {
+    margin: 0;
+    font-size: clamp(30px, 4.4vw, 52px);
+    line-height: 1.04;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.lede {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.45;
+    color: #585754;
+    max-width: 30ch;
+}
+
+.keys {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #8a877f;
+    max-width: 34ch;
+    text-align: center;
+}
+/* the controls: in the left column under "Go home" on desktop, under the screen on phones (Q, 2026-10-20) */
+.keysLeft {
+    display: grid;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 1.4;
+    color: #585754;
+    text-align: left;
+}
+.keyRow {
+    display: grid;
+    grid-template-columns: 11ch 1fr;
+    align-items: baseline;
+    gap: 10px;
+}
+.kbd {
+    font: inherit;
+    font-size: 12px;
+    color: #163bef;
+    white-space: nowrap;
+}
+@media (min-width: 821px) {
+    .keysUnder {
+        display: none;
+    }
+}
+@media (max-width: 820px) {
+    .keysLeft {
+        display: none;
+    }
+}
+
+.home {
+    align-self: flex-start;
+    font-size: 15px;
+    font-weight: 600;
+    color: #163bef;
+    text-decoration: none;
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 1px;
+}
+.links {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 20px;
+}
+.head .links {
+    align-self: flex-start;
+}
+/* "Try again": the button twin of Go home (the link has the blue underline) */
+.retry,
+.homeBtn {
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+}
+.retry {
+    text-decoration: underline;
+}
+.homeBtn {
+    font-size: 15px;
+    font-weight: 600;
+    color: #163bef;
+    border-bottom: 2px solid currentColor;
+    padding-bottom: 1px;
+}
+.homeBtn:hover {
+    color: #09156b;
+}
+.homeBtn:focus-visible,
+.retry:focus-visible {
+    outline: 3px solid #163bef;
+    outline-offset: 3px;
+}
+.home:hover {
+    color: #09156b;
+}
+.home:focus-visible,
+.start:focus-visible,
+.pad:focus-visible {
+    outline: 3px solid #163bef;
+    outline-offset: 3px;
+}
+
+/* QBOT: a pixel-art sprite at a whole-number multiple (--k) of its native pixels, never a fractional width.
+   Beside the screen his feet stand on the bottom edge of the screen box (--bh high): the cell has transparent rows below the feet (cell height minus baseline row), so he hangs that far below the edge. */
+.qbot {
+    position: relative;
+    width: calc(var(--cw) * var(--k) * 1px);
+    max-width: 100%;
+    height: var(--bh);
+    margin-top: 0;
+}
+.sprite {
+    position: absolute;
+    left: calc(var(--dx, 0) * 1px);
+    bottom: calc((var(--ch) - var(--base)) * var(--k) * -1px - var(--dy, 0) * 1px);
+    width: calc(var(--cw) * var(--k) * 1px);
+    height: calc(var(--ch) * var(--k) * 1px);
+    max-width: none;
+    background-repeat: no-repeat;
+    background-size: calc(var(--cw) * var(--cols) * var(--k) * 1px) calc(var(--ch) * var(--rows) * var(--k) * 1px);
+    background-position: calc(var(--col, 0) * var(--cw) * var(--k) * -1px) calc(var(--row, 0) * var(--ch) * var(--k) * -1px);
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    user-select: none;
+    -webkit-user-select: none;
+}
+/* his line hangs over his head (the figure is --base rows tall from the feet, the head top --top rows below the cell's top) */
+.bubbleSlot {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: calc((var(--base) - var(--top)) * var(--k) * 1px + 12px);
+    display: flex;
+    align-items: flex-end;
+    padding-left: calc(var(--k) * 6px);
+}
+.bubble {
+    position: relative;
+    box-sizing: border-box;
+    width: max-content;
+    max-width: 100%;
+    padding: 8px 12px 8px;
+    background: #163bef;
+    color: #fff;
+    font-family: "QtrsCGA", ui-monospace, monospace;
+    font-size: calc(var(--s, 2) * 8px);
+    line-height: calc(var(--s, 2) * 10px);
+    overflow-wrap: anywhere;
+    border-radius: 3px;
+    pointer-events: none;
+    animation: pop 160ms steps(3, end) both;
+}
+.bubble::before {
+    content: "";
+    position: absolute;
+    left: 24px;
+    bottom: -7px;
+    border: 7px solid transparent;
+    border-top-color: #163bef;
+    border-bottom: 0;
+}
+@keyframes pop {
+    from {
+        transform: translateY(4px) scale(0.92);
+        opacity: 0;
+    }
+}
+
+/* the screen floats on the page: navy frame with the title above, rounded corners, a soft shadow, nothing else around it */
+.bezel {
+    --s: 3;
+    position: relative;
+    box-sizing: border-box;
+    width: max-content;
+    padding: 14px 16px 24px;
+    background: #09156b;
+    border-radius: 14px;
+    box-shadow: 0 24px 50px -24px rgba(9, 21, 107, 0.6), 0 2px 8px rgba(9, 21, 107, 0.18);
+    user-select: none;
+    -webkit-user-select: none;
+}
+/* the one pixel font (IBM CGA), at 8px steps: 8px on small screens, 16px from a 3x screen up */
+.bezelText {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+    font-family: "QtrsCGA", ui-monospace, monospace;
+    font-size: 16px;
+    line-height: 16px;
+    color: #9db3fa;
+    white-space: nowrap;
+}
+/* the LED sits on the middle of the Q, not the baseline (Q) */
+.bezelText > span:first-child {
+    display: inline-flex;
+    align-items: center;
+}
+.led {
+    display: inline-block;
+    flex: none;
+    /* the font's capitals sit high in their 16px line: lift the dot to the Q's middle */
+    position: relative;
+    top: -0.125em;
+    width: 8px;
+    height: 8px;
+    margin-right: 8px;
+    background: #fff;
+    border-radius: 50%;
+    animation: led 2.4s steps(1, end) infinite;
+}
+@keyframes led {
+    50% {
+        opacity: 0.35;
+    }
+}
+.screen {
+    position: relative;
+    width: calc(144px * var(--s));
+    height: calc(160px * var(--s));
+    background: #f3f6ff;
+    overflow: hidden;
+}
+.demo canvas {
+    cursor: pointer;
+}
+.screen canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+}
+.screen::after {
+    /* a faint pixel grid, like a real LCD */
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(to right, rgba(9, 21, 107, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(9, 21, 107, 0.05) 1px, transparent 1px);
+    background-size: calc(var(--s) * 1px) calc(var(--s) * 1px);
+}
+.overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    background: rgba(9, 21, 107, 0.55);
+}
+.card {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    max-height: 100%;
+    overflow: auto;
+    padding: 14px;
+    background: #f3f6ff;
+    border: 2px solid #09156b;
+    border-radius: 6px;
+}
+.cardClose {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    color: #09156b;
+}
+
+/* Press Start and the directions use the page's own font, like any button */
+/* the bezel's bottom strip (Q): Start and the sound toggle in the title bar's pixel font, light blue on navy */
+.startRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 24px;
+    font-family: "QtrsCGA", ui-monospace, monospace;
+    font-size: 16px;
+    line-height: 16px;
+    color: #9db3fa;
+    white-space: nowrap;
+}
+.startRow > .start:first-child {
+    animation: led 1.2s steps(1, end) infinite;
+}
+.start {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+.start:hover,
+.sound:hover {
+    color: #fff;
+    animation: none;
+}
+.soundWrap {
+    position: relative;
+    display: inline-flex;
+}
+/* the pixel-font speaker toggle: outlined, quiet until it is on */
+.sound {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+.sound svg {
+    width: 1.5em;
+    height: 1em;
+}
+.sound[aria-pressed="true"] {
+    color: #fff;
+}
+.start:focus-visible,
+.sound:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+}
+/* the first-visit coach tip: to the right of the toggle on desktop (pointing left at it), in the flow below it on phones (pointing up),
+   so it never lands on the board or on the key help */
+.coach {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 14px);
+    width: max-content;
+    max-width: 220px;
+    padding: 8px 12px;
+    background: #163bef;
+    color: #fff;
+    font-family: "QtrsCGA", ui-monospace, monospace;
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: 3px;
+    pointer-events: none;
+    z-index: 2;
+}
+.coach::after {
+    content: "";
+    position: absolute;
+    top: -7px;
+    right: 24px;
+    border: 7px solid transparent;
+    border-bottom-color: #163bef;
+    border-top: 0;
+}
+.hint {
+    color: inherit;
+    opacity: 0.7;
+}
+.sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+}
+
+@media (max-width: 820px) {
+    /* phones: the heading (standalone only), the screen with its button and directions, then QBOT */
+    .inner {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas:
+            "head"
+            "game"
+            "qbot";
+        grid-template-rows: auto;
+        justify-items: center;
+        padding-top: 18px;
+        row-gap: 22px;
+        padding-bottom: 120px; /* room to scroll the button above any bottom banner */
+    }
+    .head {
+        align-items: center;
+        text-align: center;
+        padding-top: 0;
+        gap: 10px;
+    }
+    .lede {
+        max-width: 34ch;
+    }
+    .home {
+        align-self: center;
+    }
+    .game {
+        align-items: center;
+    }
+    .keys {
+        font-size: 12px;
+        text-align: center;
+    }
+    .qbot {
+        justify-self: center;
+        grid-row: auto;
+        height: calc(var(--ch) * var(--k) * 1px + 120px);
+    }
+    .sprite {
+        bottom: calc(var(--dy, 0) * -1px);
+    }
+    .bubbleSlot {
+        bottom: calc((var(--ch) - var(--top)) * var(--k) * 1px + 12px);
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .start,
+    .led,
+    .bubble {
+        transition: none;
+        animation: none;
+    }
+}
+
+/* the high-score plate, in the four tones */
+.overlay {
+    padding: 0;
+    background: #09156b;
+}
+/* the high scores in the game's own look: navy plate, the pixel font */
+.scores {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: calc(var(--s, 2) * 4px) calc(var(--s, 2) * 7px);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: calc(var(--s, 2) * 3px);
+    font-family: "QtrsCGA", ui-monospace, monospace;
+    font-size: calc(var(--s, 2) * 8px);
+    line-height: calc(var(--s, 2) * 10px);
+    color: #f3f6ff;
+    background: #09156b;
+    border: calc(var(--s, 2) * 2px) solid #163bef;
+    animation: pop 160ms steps(3, end) both;
+}
+.scoresKicker {
+    text-align: center;
+    color: #9db3fa;
+}
+.scoresTitle {
+    text-align: center;
+    /* the same glyph size as every other line on the screen (the Score readout), not double */
+    font-size: calc(var(--s, 2) * 8px);
+    line-height: calc(var(--s, 2) * 10px);
+    color: #f3f6ff;
+}
+.scoresList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.scoresList li {
+    display: grid;
+    grid-template-columns: 2.4ch 4ch 1fr;
+    column-gap: calc(var(--s, 2) * 4px);
+    color: #9db3fa;
+}
+.scoresList li span:last-child {
+    text-align: right;
+}
+.scoresList li.scoresTop {
+    color: #f3f6ff;
+}
+.scoresNote {
+    text-align: center;
+    color: #9db3fa;
+    margin-top: 24px;
+}
+.scoresClose {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    color: #9db3fa;
+    cursor: pointer;
+}
+.scoresClose:hover {
+    color: #f3f6ff;
+}
+
+/* ---- QBOY: the phone handheld (viewport 820 px or narrower), after Q's render of the device: a light warm grey matte moulded body with a
+   fine even grain and soft edges, a black glass lens with the lit display inside it, and plastic controls: the round buttons, D-pad arms,
+   START and the switch knob are convex matte parts sitting in concave glossy pockets. --u is one pixel of the 538 px wide render. ---- */
+.qboyRoot {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    box-sizing: border-box;
+    height: 100dvh;
+    padding: 0;
+    background: #000;
+    --sat: env(safe-area-inset-top, 0px);
+    --sab: env(safe-area-inset-bottom, 0px);
+    display: flex;
+    touch-action: none;
+    overscroll-behavior: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    font-family: "QtrsCGA", ui-monospace, monospace;
+}
+.qboyBody {
+    box-sizing: border-box;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: var(--pt, 18px) 0 var(--pb, 26px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 4vw;
+    background-color: #c6c6c6;
+    /* dimensional light over the grain (white and black tints only, no blend modes, static): a key light from the upper left, a diagonal
+       falloff toward the lower right, a slight darkening toward the bottom edge; the texture is the bottom layer */
+    background-image:
+        radial-gradient(circle 75vw at 15% 8%, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.19) 12%, rgba(255, 255, 255, 0.15) 28%, rgba(255, 255, 255, 0.095) 48%, rgba(255, 255, 255, 0.04) 72%, rgba(255, 255, 255, 0) 100%),
+        linear-gradient(145deg, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.03) 45%, rgba(0, 0, 0, 0.075) 62%, rgba(0, 0, 0, 0.125) 80%, rgba(0, 0, 0, 0.17) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.03) 70%, rgba(0, 0, 0, 0.06) 85%, rgba(0, 0, 0, 0.09) 100%),
+        var(--qtrs-plastic);
+    background-size: 100% 100%, 100% 100%, 100% 100%, 420px 420px;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat;
+    /* a soft moulded edge: a rolled highlight along the top, a diffuse shade along the bottom, a hair of light on the outer rim */
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.35),
+        inset 0 3px 2px -1px rgba(255, 255, 255, 0.75),
+        inset 0 -4px 6px -2px rgba(70, 66, 60, 0.28),
+        inset 3px 0 4px -2px rgba(255, 255, 255, 0.35),
+        inset -3px 0 4px -2px rgba(70, 66, 60, 0.16),
+        0 0 0 1px rgba(60, 58, 55, 0.22);
+    touch-action: none;
+    overflow: hidden;
+}
+.qboyBody::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 38%, rgba(0, 0, 0, 0.1) 100%);
+    pointer-events: none;
+}
+/* the lens: glossy black glass, edge to edge of the well, a lip of light where it meets the body, a sheen across the top */
+.qboyLens {
+    position: relative;
+    flex: none;
+    align-self: flex-start;
+    margin-left: 12px;
+    margin-bottom: auto;
+    width: var(--lw);
+    height: var(--lh);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 34px 14px;
+    z-index: 1;
+    border-radius: 12px;
+    background: linear-gradient(165deg, #1b1c1e 0%, #0d0e0f 55%, #131416 100%);
+    box-shadow:
+        inset 0 0 0 1px #000,
+        inset 0 1px 0 rgba(255, 255, 255, 0.16),
+        inset 0 0 22px rgba(0, 0, 0, 0.85),
+        0 0 0 1px rgba(40, 38, 35, 0.3),
+        0 1px 0 1px rgba(255, 255, 255, 0.55);
+}
+.lensSheen {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(118deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 26%, rgba(255, 255, 255, 0) 40%), linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(255, 255, 255, 0) 18%);
+}
+.qboyScreenBox {
+    position: relative;
+}
+/* the printing on the lens bezel: smooth vector type in Google Sans, light grey; the pixel font stays inside the display */
+.lensCode,
+.lensBack,
+.bandLbl {
+    font-family: "QtrsGoogleSans", var(--qtrs-font, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif);
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c6c8cb;
+    -webkit-font-smoothing: antialiased;
+}
+.lensCode,
+.lensBack {
+    position: absolute;
+    font-size: 12.5px;
+}
+/* both strips are 34 px: the prints are centred in them */
+.lensCode {
+    right: 14px;
+    top: 10px;
+    pointer-events: none;
+}
+/* the way home: printed like the code, a 96 x 48 tap area centred on the bottom strip, reaching past the bezel onto the body */
+.qboyRoot .lensBack,
+.qboyRoot .lensBack span {
+    /* the same ink as the code beside it (an inherited link colour was dimming it) */
+    color: #c6c8cb;
+}
+.lensBack {
+    left: 0;
+    bottom: -7px;
+    width: 96px;
+    height: 48px;
+    padding: 0 0 0 14px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    touch-action: none;
+}
+/* the caps sit high in their line box: nudge the print down to the strip's centre (Q) */
+.lensBack span {
+    position: relative;
+    top: 1.5px;
+}
+.lensLogo {
+    position: absolute;
+    left: 14px;
+    top: 9.5px;
+    width: 58px;
+    height: 15px;
+    background: #aeb0b4;
+    -webkit-mask: var(--qtrs-qboy-logo) left center / contain no-repeat;
+    mask: var(--qtrs-qboy-logo) left center / contain no-repeat;
+    pointer-events: none;
+}
+.lensQtrs {
+    position: absolute;
+    right: 14px;
+    bottom: 9.5px;
+    width: 51px;
+    height: 15px;
+    background: #aeb0b4;
+    -webkit-mask: var(--qtrs-logo) right center / contain no-repeat;
+    mask: var(--qtrs-logo) right center / contain no-repeat;
+    pointer-events: none;
+}
+/* the band above the lens: START on the left, SOUND on the right, either side of the notch; the band's height is the safe zone */
+.qboyBand {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: var(--pt);
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    pointer-events: none;
+}
+.bandL,
+.bandR {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+}
+.bandLbl {
+    font-weight: 700;
+    font-size: 13.1px;
+    letter-spacing: 0.1em;
+    /* engraved: matches the bezel grey, light edge below, dark edge above */
+    color: #8c8d90;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55), 0 -1px 0 rgba(0, 0, 0, 0.35);
+    /* the trailing letter-spacing is not ink; pull it back so the gap is ink to control */
+    margin-right: -0.1em;
+    margin-left: 0.62px;
+    position: relative;
+    top: 0.085em;
+}
+.bandR .bandLbl {
+    margin-right: -0.91px;
+    margin-left: -0.1em;
+}
+.bandStart,
+.bandSw {
+    position: relative;
+    flex: none;
+    height: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    touch-action: none;
+    pointer-events: auto;
+}
+.bandStart {
+    --d: calc(var(--u) * 80px * 48 / 112);
+    width: var(--d);
+    height: var(--d);
+}
+.bandStart::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+}
+.bandSw {
+    width: calc(var(--u) * 80px);
+    min-width: 56px;
+}
+/* START: the same slot as the sound switch, round: light bottom lip, dark top inner edge, black socket, spun metal cap */
+.sRing {
+    --d: calc(var(--u) * 80px * 48 / 112);
+    position: relative;
+    display: block;
+    width: var(--d);
+    height: var(--d);
+    border-radius: 50%;
+    background: linear-gradient(180deg, #7d7d7f, #e8e8e9);
+    pointer-events: none;
+}
+.sSocket {
+    position: absolute;
+    inset: 3.4%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 60% 66%, #2c2c2f 40%, #121214 100%);
+    box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.7);
+}
+.sCap {
+    position: absolute;
+    inset: 11%;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, rgba(255, 255, 255, 0) 0 30%, rgba(255, 255, 255, 0.16) 31% 32%, rgba(255, 255, 255, 0) 33% 55%, rgba(0, 0, 0, 0.12) 56% 57%, rgba(255, 255, 255, 0) 58%),
+        conic-gradient(from 20deg, #f2f2f3, #b9b9bc 14%, #e4e4e6 27%, #a6a6a9 40%, #f0f0f1 52%, #b4b4b7 66%, #e6e6e8 80%, #a9a9ac 92%, #f2f2f3);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.55) inset, 0 1px 2px rgba(0, 0, 0, 0.6), 1px 3px 4px rgba(0, 0, 0, 0.35);
+    transition: transform 50ms linear, box-shadow 50ms linear;
+}
+.bandStart[data-pressed="true"] .sCap {
+    transform: translateY(1.5px);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.55) inset, 0 0 1px rgba(0, 0, 0, 0.6);
+}
+.bandSw svg {
+    display: block;
+    width: calc(var(--u) * 80px);
+    height: auto;
+    overflow: visible;
+    pointer-events: none;
+}
+.bandStart:focus-visible,
+.bandSw:focus-visible {
+    outline: 3px solid #163bef;
+    outline-offset: -4px;
+}
+.qboyPress {
+    position: absolute;
+    left: calc(var(--s) * 8px);
+    width: calc(var(--s) * 64px);
+    top: 38%;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: calc(var(--s) * 3px) 0;
+    background: rgba(243, 246, 255, 0.86);
+    color: #09156b;
+    font-size: calc(var(--s) * 8px);
+    line-height: calc(var(--s) * 9px);
+    pointer-events: none;
+    animation: qboyBlink 1s steps(1, end) infinite;
+}
+.qboyScreenBox .screen {
+    /* backlit: the display glows a hair past its edge */
+    box-shadow: 0 0 2px 1px rgba(157, 179, 250, 0.5), 0 0 6px rgba(157, 179, 250, 0.16);
+}
+/* Q stands at the bottom of the readouts panel under the score, feet on the display's bottom edge; he is scaled in whole device pixels (--k) */
+.qboyQ {
+    position: absolute;
+    left: calc(var(--s) * 116px - var(--figc) * var(--k) * 1px);
+    bottom: 0;
+    width: calc(var(--cw) * var(--k) * 1px);
+    height: calc(var(--ch) * var(--k) * 1px);
+    pointer-events: none;
+}
+.qboyBubble {
+    position: absolute;
+    right: calc(var(--s) * 4px);
+    bottom: calc(var(--qfig) + 4px);
+    z-index: 4;
+    box-sizing: border-box;
+    max-width: calc(var(--s) * 96px);
+    padding: 6px 8px;
+    background: #163bef;
+    color: #fff;
+    font-size: calc(var(--s) * 8px);
+    line-height: calc(var(--s) * 10px);
+    border-radius: 3px;
+    overflow-wrap: anywhere;
+    pointer-events: none;
+    animation: pop 160ms steps(3, end) both;
+}
+.qboyAttract {
+    position: absolute;
+    left: calc(var(--s) * 6px);
+    right: calc(var(--s) * 6px);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+    box-sizing: border-box;
+    padding: calc(var(--s) * 6px) calc(var(--s) * 4px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--s) * 3px);
+    text-align: center;
+    background: rgba(9, 21, 107, 0.84);
+    border: calc(var(--s) * 1px) solid #9db3fa;
+    color: #f3f6ff;
+    font-size: calc(var(--s) * 8px);
+    line-height: calc(var(--s) * 8px);
+    pointer-events: none;
+}
+.qboyBig {
+    line-height: 1;
+    color: #fff;
+}
+.qboyBlink {
+    color: #9db3fa;
+    animation: qboyBlink 1s steps(1, end) infinite;
+}
+@keyframes qboyBlink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* the controls: fixed CSS-pixel sizes (--u = 390 / 538 px), the D-pad anchored to the bottom left and the face cluster to the bottom right, a
+   fixed distance from each edge and from the home-indicator zone; a wider phone only widens the gap between them */
+.qboyCtl {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 0;
+    z-index: 2;
+}
+.dpad {
+    --arm: max(48px, calc(var(--u) * 65px));
+    position: absolute;
+    left: 12px;
+    bottom: var(--cbd);
+    width: calc(var(--arm) * 3);
+    height: calc(var(--arm) * 3);
+}
+.faces {
+    position: absolute;
+    right: 11.4px; /* the face wells are 1% inside their box: the lip edge lands on 12px */
+    bottom: var(--cbf);
+    width: calc(var(--u) * 220px);
+    height: calc(var(--u) * 221px);
+}
+.face,
+.sw,
+.lbl {
+    position: absolute;
+    left: calc(var(--x) * var(--u) * 1px);
+    top: calc(var(--y) * var(--u) * 1px);
+    transform: translate(-50%, -50%);
+}
+.dpadArt {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+.dpadTop,
+.dpadCast {
+    transform-origin: 97.5px 97.5px;
+    /* released: ease back out in 120 ms; pressed: 80 ms */
+    transition: transform 120ms ease-out, opacity 120ms ease-out;
+}
+.dpad[data-dir] .dpadTop,
+.dpad[data-dir] .dpadCast {
+    transition-duration: 80ms;
+}
+/* pressed: the plate sinks toward the pressed side (its sidewall band thins there and shows more on the lifted side), the cast shadow tightens */
+.dpad[data-dir] .dpadTop {
+    transform: translateY(3.5px);
+}
+.dpad[data-dir="up"] .dpadTop {
+    transform: translateY(1.5px);
+}
+.dpad[data-dir="down"] .dpadTop {
+    transform: translateY(5px);
+}
+.dpad[data-dir] .dpadCast {
+    transform: translate(-2px, -3px) scale(0.96);
+    opacity: 0.55;
+}
+.dpad[data-dir] .armIco {
+    margin-top: 3.4px;
+}
+.armIco {
+    transition: margin-top 120ms ease-out;
+}
+.dpad[data-dir] .armIco {
+    transition-duration: 80ms;
+}
+/* the light follows the tilt: a gradient across the whole pad, dark toward the pressed edge and a little more light on the lifted side */
+.tilt {
+    opacity: 0;
+    transition: opacity 120ms ease-out;
+    pointer-events: none;
+}
+.dpad[data-dir="up"] .tilt[data-arm="up"],
+.dpad[data-dir="down"] .tilt[data-arm="down"],
+.dpad[data-dir="left"] .tilt[data-arm="left"],
+.dpad[data-dir="right"] .tilt[data-arm="right"] {
+    opacity: 1;
+    transition-duration: 80ms;
+}
+.dpad {
+    transition: transform 120ms ease-out;
+}
+.dpad[data-dir] {
+    transition-duration: 80ms;
+}
+.dpad[data-dir="left"] { transform: perspective(240px) rotateY(-5deg); }
+.dpad[data-dir="right"] { transform: perspective(240px) rotateY(5deg); }
+.dpad[data-dir="up"] { transform: perspective(240px) rotateX(5deg); }
+.dpad[data-dir="down"] { transform: perspective(240px) rotateX(-5deg); }
+.dpad button {
+    position: absolute;
+    width: var(--arm);
+    height: var(--arm);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    touch-action: none;
+}
+.dUp { left: var(--arm); top: 0; }
+.dLeft { left: 0; top: var(--arm); }
+.dRight { left: calc(var(--arm) * 2); top: var(--arm); }
+.dDown { left: var(--arm); top: calc(var(--arm) * 2); }
+.face {
+    box-sizing: border-box;
+    width: max(50px, calc(var(--u) * 86px));
+    height: max(50px, calc(var(--u) * 86px));
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    touch-action: none;
+}
+.start {
+    width: max(48px, calc(var(--u) * 80px));
+    height: max(48px, calc(var(--u) * 80px));
+}
+.dish {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+}
+.cap {
+    transition: transform 50ms linear;
+}
+.hl {
+    transition: opacity 50ms linear;
+}
+.face[data-pressed="true"] .cap {
+    transform: translate(0.4px, 6px);
+}
+.face[data-pressed="true"] .fcast {
+    transform: translate(-2px, -3px);
+    opacity: 0.5;
+}
+.fcast {
+    transition: transform 50ms linear, opacity 50ms linear;
+}
+.bandStart[data-pressed="true"] .cap {
+    transform: translate(1.5px, 2.5px);
+}
+.face[data-pressed="true"] .occl {
+    opacity: 0.6;
+}
+.face:not(.concave):not(.start)::after {
+    content: "";
+    position: absolute;
+    inset: 11%;
+    border-radius: 50%;
+    background: var(--qtrs-plastic) 0 0 / 420px 420px;
+    mix-blend-mode: soft-light;
+    opacity: 0.55;
+    pointer-events: none;
+}
+.ico {
+    position: absolute;
+    left: calc(var(--x) * var(--u) * 1px);
+    top: calc(var(--y) * var(--u) * 1px);
+    width: max(14px, calc(var(--u) * 25px));
+    height: max(14px, calc(var(--u) * 25px));
+    transform: translate(-50%, -50%);
+    color: #3f4042;
+    pointer-events: none;
+}
+.icoSm {
+    width: max(10px, calc(var(--u) * 16px));
+    height: max(10px, calc(var(--u) * 16px));
+}
+.ico svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.face {
+    position: absolute;
+}
+.face[data-pressed="true"] .hl {
+    opacity: 0.5;
+}
+.lbl {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--u) * 3px);
+    font: 400 max(8px, calc(var(--u) * 17px)) / 1 -apple-system, "Helvetica Neue", Arial, sans-serif;
+    letter-spacing: 0.1em;
+    color: #4a4b4d;
+    pointer-events: none;
+}
+.lbl i {
+    display: block;
+    width: 1px;
+    height: max(5px, calc(var(--u) * 12px));
+    background: #4a4b4d;
+}
+.lblSide i {
+    width: max(7px, calc(var(--u) * 17px));
+    height: 1px;
+}
+.lblBelow {
+    flex-direction: column;
+}
+.sw {
+    box-sizing: border-box;
+    width: max(88px, calc(var(--u) * 130px));
+    height: 48px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    touch-action: none;
+    display: grid;
+    place-items: center;
+}
+.sw svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    pointer-events: none;
+}
+.knob {
+    transition: transform 60ms linear;
+}
+.knob[data-on="true"] {
+    transform: translateX(43px);
+}
+.face:focus-visible,
+.sw:focus-visible,
+.dpad button:focus-visible {
+    outline: 3px solid #163bef;
+    outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+    .qboyBlink,
+    .qboyBubble {
+        animation: none;
+    }
+    .cap,
+    .hl,
+    .knob,
+    .dpadTop {
+        transition: none;
+    }
+}
+
+/* the printed icons: on the face caps and the D-pad arms, in a light grey like the render */
+.capIco,
+.armIco {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    color: #7d7d81;
+    /* debossed: light edge below the stroke, darker edge above */
+    filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.85)) drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.32));
+    pointer-events: none;
+}
+.capIco {
+    left: 49%;
+    top: 48%;
+    width: 32%;
+    height: 32%;
+    transition: transform 50ms linear;
+}
+.face[data-pressed="true"] .capIco {
+    transform: translate(calc(-50% + 1.5px), calc(-50% + 2.5px));
+}
+.armIco {
+    width: 11%;
+    height: 11%;
+}
+.capIco svg,
+.armIco svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}

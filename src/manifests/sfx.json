@@ -1,0 +1,47 @@
+{
+ "thunk": {
+  "file": "sfx/thunk.mp3",
+  "ms": 95,
+  "volume": 0.55
+ },
+ "move": {
+  "file": "sfx/move.mp3",
+  "ms": 20,
+  "volume": 0.12
+ },
+ "rotate": {
+  "file": "sfx/rotate.mp3",
+  "ms": 65,
+  "volume": 0.3
+ },
+ "harddrop": {
+  "file": "sfx/harddrop.mp3",
+  "ms": 225,
+  "volume": 0.55
+ },
+ "clear": {
+  "file": "sfx/clear.mp3",
+  "ms": 495,
+  "volume": 0.8
+ },
+ "tetris": {
+  "file": "sfx/tetris.mp3",
+  "ms": 1240,
+  "volume": 0.95
+ },
+ "gameover": {
+  "file": "sfx/gameover.mp3",
+  "ms": 1530,
+  "volume": 0.8
+ },
+ "countdown-beep": {
+  "file": "sfx/countdown-beep.mp3",
+  "ms": 110,
+  "volume": 0.55
+ },
+ "countdown-go": {
+  "file": "sfx/countdown-go.mp3",
+  "ms": 420,
+  "volume": 0.75
+ }
+}

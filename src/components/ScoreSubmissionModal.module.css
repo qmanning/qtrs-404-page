@@ -1,0 +1,143 @@
+/* The initials prompt in the game's own palette: white, light blue, Q.T.R.S. blue, navy. */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 200000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    background: rgba(9, 21, 107, 0.6);
+    font-family: system-ui, sans-serif;
+}
+.card {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 28rem;
+    background: #f3f6ff;
+    color: #09156b;
+    border: 2px solid #09156b;
+    border-radius: 8px;
+    box-shadow: 8px 8px 0 #09156b;
+}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 2px solid #9db3fa;
+}
+.headerTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.headerTitle h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+.close {
+    display: inline-flex;
+    padding: 4px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+.close:hover {
+    background: rgba(157, 179, 250, 0.35);
+}
+.scoreBlock {
+    padding: 20px 24px;
+    border-bottom: 2px solid #9db3fa;
+    text-align: center;
+}
+.scoreLine {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+.score {
+    font-size: 24px;
+    font-weight: 700;
+    color: #163bef;
+}
+.stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 14px;
+    font-size: 14px;
+}
+.statLabel {
+    font-weight: 500;
+    opacity: 0.7;
+}
+.statValue {
+    font-size: 18px;
+    font-weight: 700;
+}
+.form {
+    padding: 20px 24px 24px;
+}
+.label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+}
+.input {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #163bef;
+    border-radius: 6px;
+    background: #fff;
+    color: #09156b;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    text-align: center;
+    text-transform: uppercase;
+}
+.input:focus-visible {
+    outline: 3px solid #9db3fa;
+    outline-offset: 1px;
+}
+.error {
+    margin: 6px 0 0;
+    font-size: 14px;
+    color: #b3261e;
+}
+.actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 16px;
+}
+.skip,
+.submit {
+    flex: 1;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+.skip {
+    border: 2px solid #9db3fa;
+    background: transparent;
+    color: #09156b;
+}
+.submit {
+    border: 2px solid #163bef;
+    background: #163bef;
+    color: #f3f6ff;
+}
+.skip:disabled,
+.submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
